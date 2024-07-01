@@ -4,6 +4,7 @@
 # Allow specific files
 !.s2iignore
 !.s2i/
+!example.env
 !Pipfile
 !Pipfile.lock
 !components/
