@@ -8,7 +8,7 @@ from kfp import dsl
 
 load_dotenv(override=True)
 os.system('ls -ltrR ../')
-os.system('source ../example.env')
+os.system('source /opt/app-root/src/example.env')
 kubeflow_endpoint = os.environ["KUBEFLOW_ENDPOINT"]
 base_image = os.getenv("BASE_IMAGE", "image-registry.openshift-image-registry.svc:5000/openshift/python:latest")
 
