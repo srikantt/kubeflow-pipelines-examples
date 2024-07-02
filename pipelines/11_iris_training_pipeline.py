@@ -4,13 +4,15 @@ import os
 
 import kfp.compiler
 from dotenv import load_dotenv
-from decouple import config
+from decouple import Config, RepositoryEnv
 from kfp import dsl
 
 load_dotenv(override=True)
 os.system('ls -ltrR ../')
-os.system('source /opt/app-root/src/example.env')
-os.system('cp /opt/app-root/src/example.env /opt/app-root/src/pipelines/.env')
+os.system('cp /opt/app-root/src/example.env /opt/app-root/src/.env')
+env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+config = Config(RepositoryEnv(env_path))
+
 kubeflow_endpoint = config("KUBEFLOW_ENDPOINT")
 base_image = "image-registry.openshift-image-registry.svc:5000/openshift/python:latest"
 
