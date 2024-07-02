@@ -9,7 +9,7 @@ from kfp import dsl
 from kfp import kubernetes
 
 load_dotenv(override=True)
-os.system('ls -ltrR ../')
+os.system('ls -ltr ../')
 os.system('cp /opt/app-root/src/example.env /opt/app-root/src/.env')
 env_path = '/opt/app-root/src/.env'
 config = Config(RepositoryEnv(env_path))
