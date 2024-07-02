@@ -4,13 +4,15 @@ import os
 
 import kfp.compiler
 from dotenv import load_dotenv
+from decouple import config
 from kfp import dsl
 
 load_dotenv(override=True)
 os.system('ls -ltrR ../')
 os.system('source /opt/app-root/src/example.env')
-kubeflow_endpoint = os.environ["KUBEFLOW_ENDPOINT"]
-base_image = os.getenv("BASE_IMAGE", "image-registry.openshift-image-registry.svc:5000/openshift/python:latest")
+os.system('cp /opt/app-root/src/example.env /opt/app-root/src/pipelines/.env')
+kubeflow_endpoint = config("KUBEFLOW_ENDPOINT")
+base_image = "image-registry.openshift-image-registry.svc:5000/openshift/python:latest"
 
 
 @dsl.component(
@@ -233,8 +235,8 @@ if __name__ == "__main__":
     print(f"Connecting to kfp: {kubeflow_endpoint}")
 
     sa_token_path = "/run/secrets/kubernetes.io/serviceaccount/token"  # noqa: S105
-    if os.environ["BEARER_TOKEN"]:
-        bearer_token = os.environ["BEARER_TOKEN"]
+    if config("BEARER_TOKEN"):
+        bearer_token = config("BEARER_TOKEN")
     elif os.path.isfile(sa_token_path):
         with open(sa_token_path) as f:
             bearer_token = f.read().rstrip()
