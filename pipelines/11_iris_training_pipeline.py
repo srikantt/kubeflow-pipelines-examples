@@ -232,7 +232,7 @@ def iris_pipeline(model_obc: str = "iris-model"):
     )
 
     validate_model_task = validate_model(onnx_model_file=model_to_onnx_task.output)  # noqa: F841
-    kubernetes.mount_pvc(validate_model_task, pvc_name="credit-scoring-tensorflow-credit-scoring-notebook-workbench-pvc", mount_path="/tmp/outputs")
+    kubernetes.mount_pvc(validate_model_task, pvc_name="my-data", mount_path="/tmp/outputs")
 
 if __name__ == "__main__":
     print(f"Connecting to kfp: {kubeflow_endpoint}")
