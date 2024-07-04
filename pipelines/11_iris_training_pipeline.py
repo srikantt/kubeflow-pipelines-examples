@@ -252,7 +252,8 @@ if __name__ == "__main__":
         ssl_ca_cert = sa_ca_cert
     else:
         ssl_ca_cert = None
-
+    print(bearer_token)
+    print(ssl_ca_cert)
     client = kfp.Client(
         host=kubeflow_endpoint,
         existing_token=bearer_token,
