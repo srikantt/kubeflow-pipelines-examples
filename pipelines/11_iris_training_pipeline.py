@@ -6,11 +6,12 @@ import kfp.compiler
 from dotenv import load_dotenv
 from decouple import Config, RepositoryEnv
 from kfp import dsl
+from kfp import kubernetes
 
 load_dotenv(override=True)
-os.system('ls -ltrR ../')
+os.system('ls -ltr ../')
 os.system('cp /opt/app-root/src/example.env /opt/app-root/src/.env')
-env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+env_path = '/opt/app-root/src/.env'
 config = Config(RepositoryEnv(env_path))
 
 kubeflow_endpoint = config("KUBEFLOW_ENDPOINT")
@@ -231,7 +232,7 @@ def iris_pipeline(model_obc: str = "iris-model"):
     )
 
     validate_model_task = validate_model(onnx_model_file=model_to_onnx_task.output)  # noqa: F841
-
+    kubernetes.mount_pvc(validate_model_task, pvc_name="my-data", mount_path="/tmp/outputs")
 
 if __name__ == "__main__":
     print(f"Connecting to kfp: {kubeflow_endpoint}")
@@ -254,6 +255,8 @@ if __name__ == "__main__":
         print("there is no ssl_ca_cert")
     print(kubeflow_endpoint)
 
+    print(bearer_token)
+    print(ssl_ca_cert)
     client = kfp.Client(
         host=kubeflow_endpoint,
         existing_token=bearer_token,
