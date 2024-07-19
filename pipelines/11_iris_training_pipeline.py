@@ -251,6 +251,8 @@ if __name__ == "__main__":
         ssl_ca_cert = sa_ca_cert
     else:
         ssl_ca_cert = None
+        print("there is no ssl_ca_cert")
+    print(kubeflow_endpoint)
 
     client = kfp.Client(
         host=kubeflow_endpoint,
